@@ -1,9 +1,16 @@
-import Header from "./components/Header"
+import { Routes, Route } from 'react-router-dom'
+import Login from './components/pages/Account/Login'
+import SignUp from './components/pages/Account/SignUp'
 
 
 function App() {
-  return(
-    <Header/>
+  return (
+    <>
+      <Routes>  
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+      </Routes>
+    </>
   )
 }
 
