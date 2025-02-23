@@ -3,7 +3,6 @@
 const express = require('express');
 const signup = require('../controllers/logincontrollers/signup');
 const signin = require('../controllers/logincontrollers/signin');
-const verifytoken = require('../middleware/verifytoken');
 const loginroute = express.Router();
 
 
