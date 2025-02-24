@@ -4,6 +4,10 @@ import blacklogo from '../../../assets/images/blacklogo.png'
 import { Link } from 'react-router-dom'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import { API_URL } from '../../../config/Config';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 function SignUp() {
@@ -14,6 +18,7 @@ function SignUp() {
     name: string
   }
 
+  const navigate = useNavigate()
   const [passwordShown, setPasswordShown] = React.useState(false);
   const [userInput, setUserInput] = React.useState<UserInput>({
     username: '',
@@ -26,9 +31,37 @@ function SignUp() {
     setUserInput(userInput => ({ ...userInput, [e.target.name]: e.target.value }))
   }
 
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(userInput)
+
+        //post user 
+    try {
+      await axios.post(`${API_URL}/signup`, {
+        name: userInput.name,
+        username: userInput.username,
+        password: userInput.password,
+        email: userInput.email,
+      })
+      .then((response) => {
+        console.log(response)
+        if (response) {
+          toast.success(response.data.message)
+          navigate('/')
+        }
+      })
+    }
+     catch (error: unknown) {
+      if (error instanceof Error) {
+        if ('response' in error && error.response && typeof error.response === 'object') {
+            toast.error((error.response as any).data?.message || "An error occurred");
+        } else {
+            toast.error(error.message);
+        }
+    } else {
+        toast.error("An unknown error occurred");
+    }
+    }
+
   }
 
   return (
@@ -56,11 +89,11 @@ function SignUp() {
           <p className='text-gray-700 mb-8'>Provide your information to sign up</p>
           <form onSubmit={HandleSubmit} className='w-11/12' action="">
             <div className=' grid grid-cols-2 w-11/12 gap-4 relative'>
-              <input onChange={HandleInput} className='border-[1.7px] col-span-1 h-10 rounded-md pl-5 outline-none border-gray-700' type="text" placeholder='name' name='name' />
-              <input onChange={HandleInput} className='border-[1.7px] col-span-2   h-10 rounded-md pl-5 outline-none border-gray-700' type="text" name="email" placeholder='email' />
-              <input onChange={HandleInput} className='border-[1.7px]   h-10 rounded-md pl-5 outline-none border-gray-700' type="text" placeholder='username' name='username' />
+              <input required onChange={HandleInput} className='border-[1.7px] col-span-1 h-10 rounded-md pl-5 outline-none border-gray-700' type="text" placeholder='name' name='name' />
+              <input required onChange={HandleInput} className='border-[1.7px] col-span-2   h-10 rounded-md pl-5 outline-none border-gray-700' type="text" name="email" placeholder='email' />
+              <input required onChange={HandleInput} className='border-[1.7px]   h-10 rounded-md pl-5 outline-none border-gray-700' type="text" placeholder='username' name='username' />
               <div className='relative flex items-center '>
-                <input onChange={HandleInput} className='border-[1.7px] w-full h-10 rounded-md pl-5 outline-none border-gray-700' type={passwordShown ? 'password' : 'text'} name="password" placeholder='password' />
+                <input required onChange={HandleInput} className='border-[1.7px] w-full h-10 rounded-md pl-5 outline-none border-gray-700' type={passwordShown ? 'password' : 'text'} name="password" placeholder='password' />
                 {passwordShown ? <VisibilityOffIcon className='absolute right-2 cursor-pointer p-[3px]' onClick={() => setPasswordShown(!passwordShown)} /> : <RemoveRedEyeIcon className='absolute right-2 cursor-pointer p-[3px]' onClick={() => setPasswordShown(!passwordShown)} />}
               </div>
             </div>
