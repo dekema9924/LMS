@@ -2,21 +2,20 @@
 
 import { Outlet } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import Cookies from "js-cookie";
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { useEffect, useState } from 'react';
 
-const isAuthenticated = Cookies.get('token')
 
-export const ProtectiveRoute =()=>{
-    // const isAuthenticated = Cookies.get('token')
-    console.log(isAuthenticated)
-    return(
-      isAuthenticated ?  <Outlet/> : <Navigate to={'/'}/>
-    )
-}
+export const ProtectiveRoute = () => {
+  const isAuthenticated = useSelector((state: RootState) => state.user.value.token);
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
+};
+
 
 export const LocalRoutes=()=>{
-    console.log(isAuthenticated)
+    const isAuthenticated = useSelector((state:RootState)=> state.user.value.token)
     return(
-      !isAuthenticated ?  <Outlet/> : <Navigate to={'/home'}/>
+      !isAuthenticated ? <Outlet/> : <Navigate to={'/home'}/>
     )
 }

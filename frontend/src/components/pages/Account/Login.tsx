@@ -8,6 +8,11 @@ import axios from 'axios';
 import { API_URL } from '../../../config/Config';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import cookie from 'js-cookie'
+import { login } from '../../../features/userslice'
+
+
 
 function Login() {
     interface UserInput {
@@ -16,11 +21,16 @@ function Login() {
     }
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [passwordShown, setPasswordShown] = React.useState(false);
     const [userInput, setUserInput] = React.useState<UserInput>({
         username: '',
         password: '',
     })
+    let token = cookie.get('token')
+    dispatch(login({token: token}))
+
+
 
     const HandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserInput(userInput => ({ ...userInput, [e.target.name]: e.target.value }))
@@ -61,11 +71,11 @@ function Login() {
             <div className='md:flex h-[100vh]'>
                 <div className='w-full flex flex-col items-center justify-center pb-8 h-full '>
                     <img className='my-4' src={blacklogo} alt="logo" />
-                    <h1 className='font-bold text-[3em] font-mono '>Welcome</h1>
-                    <p className='text-gray-700 mb-8'>Enter your credentials to log in</p>
+                    <h1 className='font-bold text-[3em] font-mono text-white '>Welcome</h1>
+                    <p className='text-gray-400  mb-8'>Enter your credentials to log in</p>
 
 
-                    <form onSubmit={HandleSubmit} className='flex gap-1 flex-col'>
+                    <form onSubmit={HandleSubmit} className='flex gap-1 flex-col text-white'>
                         <input required onChange={HandleInput} className='border-[1.7px]  w-80 h-10 rounded-md pl-5 outline-none border-gray-700' type="text" placeholder="Username" name='username' />
                         <div className='relative flex items-center'>
                             <input required onChange={HandleInput} className='border-[1.7px]  w-80 h-10 rounded-md pl-5 outline-none border-gray-700' type={passwordShown ? 'password' : 'text'} placeholder="Password" name='password' />

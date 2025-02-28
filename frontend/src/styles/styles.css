@@ -1,4 +1,53 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 @import "tailwindcss";
 
 /* Add your custom styles here */
+
+
+:root {
+        --lightblue: #D6E0FF;
+        --yellow: #EED1AC;
+}
+
+@layer utilities{
+
+    .blue_text {
+        color: var(--lightblue)
+    }
+    .yellow_text{
+        color: var(--yellow);
+    }
+
+    .btn{
+       background-color: var(--yellow); 
+       color: black;
+       font-weight: bold;
+       border-radius: 10px;
+       font-family: "Bebas Neue", serif;
+       font-weight: 400;
+       font-style: normal;
+       color: #16191E;
+       cursor: pointer;
+    }
+
+    .active{
+        background-color: var(--yellow);
+        color: black;
+        font-weight: 900;
+    }
+    .not_active{
+        background-color: #232839
+    }
+
+    .dynamic-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+  
+
+    
+}

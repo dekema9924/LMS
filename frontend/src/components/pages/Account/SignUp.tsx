@@ -84,10 +84,10 @@ function SignUp() {
 
           <div className='flex items-center gap-6'>
             <img className='my-4' src={blacklogo} alt="logo" />
-            <h1 className='font-bold text-[3em] font-mono '>Sign Up</h1>
+            <h1 className='font-bold text-[3em] font-mono text-white '>Sign Up</h1>
           </div>
-          <p className='text-gray-700 mb-8'>Provide your information to sign up</p>
-          <form onSubmit={HandleSubmit} className='w-11/12' action="">
+          <p className='text-gray-400 mb-8'>Provide your information to sign up</p>
+          <form onSubmit={HandleSubmit} className='w-11/12 text-white' action="">
             <div className=' grid grid-cols-2 w-11/12 gap-4 relative'>
               <input required onChange={HandleInput} className='border-[1.7px] col-span-1 h-10 rounded-md pl-5 outline-none border-gray-700' type="text" placeholder='name' name='name' />
               <input required onChange={HandleInput} className='border-[1.7px] col-span-2   h-10 rounded-md pl-5 outline-none border-gray-700' type="text" name="email" placeholder='email' />
